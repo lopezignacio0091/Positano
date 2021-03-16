@@ -24,7 +24,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <WeatherAppBar />
-      <div className={classes.root}>
+      {/* <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
@@ -32,7 +32,7 @@ const App = () => {
             </Paper>
           </Grid>
         </Grid>
-      </div>
+      </div> */}
     </Provider>
   );
 }
