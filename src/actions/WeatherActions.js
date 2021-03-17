@@ -1,4 +1,4 @@
-import { LOADING,ERROR,KEY,GET_WEATHER_DATA } from './types';
+import { LOADING,ERROR} from './types';
 
 export const setLoading = () => {
     return{

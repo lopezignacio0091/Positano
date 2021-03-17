@@ -1,4 +1,7 @@
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
-export const KEY = '64c6cc4956cf4a637ec64b9b85ed1352';
-export const GET_WEATHER_DATA = 'GET_WEATHER_DATA';
+export const GET_USER = 'GET_USER';
+export const GET_PRODUCTO = 'GET_PRODUCTO';
+export const SET_NOMBRE='SET_NOMBRE';
+export const SET_TELEFONO='SET_TELEFONO';
+export const SET_DOMICILIO='SET_DOMICILIO';
