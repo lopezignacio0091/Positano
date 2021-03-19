@@ -1,4 +1,4 @@
-import { LOADING, ERROR, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_USER,GET_PRODUCTO } from './types';
+import { LOADING, ERROR,SET_TELEFONO,GET_USER,GET_PRODUCTO, NOT_FOUND_USER} from './types';
 
 export const setLoading = () => {
     return {
@@ -6,19 +6,23 @@ export const setLoading = () => {
     };
 };
 
-export const getUsuario = (telefono) => async dispatch => {
+export const getUsuario = (data,setFieldValue) => async dispatch => {
     try {
         var axios = require('axios');
-        var config = {method: 'get',url: "http://localhost:24981/api/usuario/" + telefono,headers: {}};
+        var config = {method: 'get',url: "http://localhost:24981/api/usuario/" + data.telefono,headers: {}};
         axios(config)
             .then(function (response) {
+                setFieldValue('nombre', response.data.nombre);
+                setFieldValue('domicilio', response.data.domicilio);
                 dispatch({
                     type: GET_USER,
                     payload: response.data
                 });
             })
             .catch(function (error) {
-                console.log(error);
+                dispatch({
+                    type: NOT_FOUND_USER,
+                });
             });
     } catch (error) {
         dispatch({
@@ -59,15 +63,6 @@ export const getProducto= () => async dispatch => {
 };
 
 
-
-export const setNombre = (event) => dispatch => {
-    dispatch({
-        type: SET_NOMBRE,
-        payload: event.target.value
-    });
-
-}
-
 export const setTelefono = (event) => dispatch => {
     dispatch({
         type: SET_TELEFONO,
@@ -75,11 +70,5 @@ export const setTelefono = (event) => dispatch => {
     });
 
 }
-export const setDomicilio = (event) => dispatch => {
-    dispatch({
-        type: SET_DOMICILIO,
-        payload: event.target.value
-    });
 
-}
 

@@ -1,43 +1,57 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario,setNombre,setDomicilio,setTelefono,getProducto,setLoading } from '../../../actions/FormularioAction';
-import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress,FormControlLabel, Radio, Grid, Card } from '@material-ui/core';
+import { getUsuario, getProducto, setLoading } from '../../../actions/FormularioAction';
+import { Formik, Form, Field, useFormik } from 'formik';
+import { Button, LinearProgress, FormControlLabel, Radio, Grid, Card, Checkbox, Paper, Chip } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import { TextField } from 'formik-material-ui';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import InputLabel from '@material-ui/core/InputLabel';
 import SettingsPhoneRoundedIcon from '@material-ui/icons/SettingsPhoneRounded';
-import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import ContactMailRoundedIcon from '@material-ui/icons/ContactMailRounded';
-import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Logo from '../../../img/positanoLogo.jpeg';
 import Progress from '../../layout/progress/Progress'
+import LeakRemoveIcon from '@material-ui/icons/LeakRemove';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import Alert from '../alert/Alert'
 import { Select } from 'formik-material-ui';
 import styles from './style'
-
- const FormularioFormik = ({ formularioReducer: { nombre, domicilio,telefono,loading },getUsuario,setNombre,setDomicilio,setTelefono,getProducto,setLoading }) => {
+import * as Yup from "yup";
+const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, loading, productos, existe }, getUsuario, getProducto, setLoading }) => {
 
     const classes = styles();
     useEffect(() => {
         setLoading();
         getProducto();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    if(loading){
-        return(
-          <Progress/>
+
+    const handleDelete = (values, setFieldValue,valueToRemove) => () => {
+        const filteredItems = values.pedido.filter(item => item !== valueToRemove)
+        setFieldValue('pedido',filteredItems);
+    };
+
+    if (loading) {
+        return (
+            <Progress />
         )
-      }  
+    }
+    const SignupSchema = Yup.object().shape({
+        nombre: Yup.string().min(2, 'Too Short!').max(70, 'Too Long!').matches(/^[a-zA-Z ]+$/, "Invalid Name only letters").required('Required'),
+        telefono: Yup.number().min(8, 'Not valid Telefone too short').required('Required'),
+    });
     return (
 
         <Formik
+            initialValues={{
+                nombre: nombre,
+                telefono: telefono,
+                pedido: [],
+                domicilio: domicilio
+            }}
+            validationSchema={SignupSchema}
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                     setSubmitting(false);
@@ -45,8 +59,7 @@ import styles from './style'
                 }, 500);
             }}
         >
-            {({ submitForm, isSubmitting }) => (
-
+            {({ submitForm, isSubmitting, values, setFieldValue }) => (
                 <Form>
                     <Card className={classes.container}>
                         <Grid container>
@@ -61,7 +74,7 @@ import styles from './style'
                                 />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                              <Divider/>  
+                                <Divider />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Field
@@ -71,7 +84,6 @@ import styles from './style'
                                     label="Telefono"
                                     placeholder="Ingrese telefono"
                                     className={classes.inputs}
-                                    onChange={setTelefono}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -82,21 +94,26 @@ import styles from './style'
                                 />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                            <Button
+                                <Button
                                     variant="contained"
                                     color="secondary"
                                     disabled={isSubmitting}
                                     className={classes.inputs}
-                                    onClick={() => getUsuario(telefono)} 
+                                    onClick={() => getUsuario(values, setFieldValue)}
                                 >
                                     Validar Usuario
                                     </Button>
-                                
+                                <diV xs={12} md={12} lg={12} className={classes.grid}>
+                                    {
+                                        (existe) ? <Alert /> : null
+                                    }
+
+                                </diV>
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                              <Divider/>  
+                                <Divider />
                             </Grid>
-                            
+
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Field
                                     component={TextField}
@@ -104,7 +121,6 @@ import styles from './style'
                                     type="text"
                                     label="Nombre"
                                     placeholder="Ingrese Nombre"
-                                    onChange={setNombre}
                                     className={classes.inputs}
                                     value={nombre}
                                     InputProps={{
@@ -124,7 +140,6 @@ import styles from './style'
                                     label="Domicilio"
                                     value={domicilio}
                                     placeholder="Ingrese Domicilio"
-                                    onChange={setDomicilio}
                                     className={classes.inputs}
                                     InputProps={{
                                         startAdornment: (
@@ -136,39 +151,37 @@ import styles from './style'
                                 />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                                <Field
-                                    component={TextField}
-                                    type="pedido"
-                                    label="Pedido"
-                                    name="pedido"
-                                    className={classes.inputs}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <LockOpenRoundedIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
+                                <FormControl className={classes.inputs}>
+                                    <InputLabel htmlFor="nacionalidad">Pedido</InputLabel>
+                                    <Field
+                                        component={Select}
+                                        name='pedido'
+                                        multiple={true}
+                                        isMulti={true}
+                                        inputProps={{
+                                            id: 'pedido',
+                                        }}
+                                    >
+                                        {productos.length > 0 && productos.map((item, index) => (
+                                            <MenuItem value={item.Nombre} key={index}>{item.Nombre}</MenuItem>
+                                        ))
+                                        }
+                                    </Field>
+                                </FormControl>
                             </Grid>
-
-                            <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                                <Field
-                                    component={TextField}
-                                    type="text"
-                                    label="Comentarios"
-                                    name="comentarios"
-                                    multiline
-                                    rowsMax={4}
-                                    className={classes.inputs}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <MessageRoundedIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
+                            <Grid item xs={12} md={4} lg={4} className={classes.grid}>
+                                     {values.pedido.map((data) => {
+                                        return (
+                                            <Chip
+                                              icon={LeakRemoveIcon}
+                                              label={data}
+                                              onDelete={handleDelete(values, setFieldValue,data)}
+                                              className={classes.chip}
+                                            />
+                                        );
+                                      })}
+                                
+                                     
                             </Grid>
 
                             <Grid item xs={12} md={12} lg={12}>
@@ -210,5 +223,5 @@ const mapProps = state => ({
     formularioReducer: state.formularioReducer
 })
 
-export default connect(mapProps, { getUsuario,setNombre,setDomicilio,setTelefono,getProducto,setLoading})(FormularioFormik);
+export default connect(mapProps, { getUsuario, getProducto, setLoading })(FormularioFormik);
 // export default connect(mapProps, {})(FormularioFormik);

@@ -1,4 +1,4 @@
-import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_PRODUCTO } from "../actions/types";
+import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_PRODUCTO,NOT_FOUND_USER } from "../actions/types";
 
 const initialState = {
     loading: false,
@@ -7,6 +7,8 @@ const initialState = {
     domicilio: '',
     telefono: '',
     productos:[],
+    TipoPedido:[],
+    existe:false,
 };
 
 export default (state = initialState, action) => {
@@ -16,14 +18,21 @@ export default (state = initialState, action) => {
                 ...state,
                 domicilio:action.payload.domicilio,
                 nombre:action.payload.nombre,
-                loading: false
+                loading: false,
+                existe :false
             }
-            case GET_PRODUCTO:
+            case NOT_FOUND_USER:
                 return {
                     ...state,
-                    productos:action.payload,
-                    loading: false
+                    loading: false,
+                    existe :true
                 }
+                case GET_PRODUCTO:
+                    return {
+                        ...state,
+                        productos:action.payload,
+                        loading: false
+                    }
         case SET_NOMBRE:
             return {
                 ...state,

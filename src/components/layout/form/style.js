@@ -1,8 +1,6 @@
 import { makeStyles} from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
 export default makeStyles({
-
-
     root: {
         display: 'flex',
       },
