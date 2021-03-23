@@ -1,4 +1,4 @@
-import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_PRODUCTO,NOT_FOUND_USER } from "../actions/types";
+import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_PRODUCTO,NOT_FOUND_USER,GET_GUSTOS } from "../actions/types";
 
 const initialState = {
     loading: false,
@@ -9,6 +9,10 @@ const initialState = {
     productos:[],
     TipoPedido:[],
     existe:false,
+    gustos:[],
+    listGustoLabel:[],
+    listGustoDate:[]
+
 };
 
 export default (state = initialState, action) => {
@@ -31,6 +35,13 @@ export default (state = initialState, action) => {
                     return {
                         ...state,
                         productos:action.payload,
+                    }
+                    case GET_GUSTOS:
+                    return {
+                        ...state,
+                        gustos:action.payload.listGustos,
+                        listGustoLabel:action.payload.objItemLabel,
+                        listGustoDate:action.payload.objItemDate,
                         loading: false
                     }
         case SET_NOMBRE:

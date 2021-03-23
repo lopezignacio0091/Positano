@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,18 +11,16 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ComputerIcon from '@material-ui/icons/Computer';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import blueGrey from '@material-ui/core/colors/blueGrey';
+import BuildIcon from '@material-ui/icons/Build';
+import grey from '@material-ui/core/colors/grey';
 import teal from '@material-ui/core/colors/teal';
 const drawerWidth = 240;
-const logo = require("../../../img/positanoLogo.jpeg");
+const logo = require("../../../img/positanoLogo.jpg");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,16 +52,16 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   drawer: {
-    width: drawerWidth,
+    width: 240,
     flexShrink: 0,
   },
   links: {
-    color: teal[400]
+    color: grey[700]
   },
 
   drawerPaper: {
-    width: drawerWidth,
-    color: teal[400]
+    width: 240,
+    backgroundColor:grey[100]
   },
   drawerHeader: {
     display: 'flex',
@@ -137,8 +136,8 @@ export default function PersistentDrawerLeft() {
             <img
               alt=""
               src={logo}
-              width="230"
-              height="200"
+              width="250"
+              height="220"
               color="white"
               className="d-inline-block align-top"
               button onClick={handleDrawerClose}
@@ -147,14 +146,30 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {/* <Link className={classes.links} to='/'> */}
+           <Link className={classes.links} to='/'>
           <ListItem button onClick={handleDrawerClose}>
             <ListItemIcon>
               <HomeRoundedIcon className={classes.links} />
             </ListItemIcon>
             <ListItemText primary='Home' />
-          </ListItem>
-          {/* </Link> */}
+          </ListItem>  
+          </Link>
+          <Link  className={classes.links} to='/stock'>
+              <ListItem button onClick={handleDrawerClose}>
+                <ListItemIcon>
+                  <BuildIcon  className={classes.links}/>
+                </ListItemIcon>
+                <ListItemText primary='Stock' />
+              </ListItem>
+            </Link>
+            <Link  className={classes.links} to='/ventas'>
+              <ListItem button onClick={handleDrawerClose}>
+                <ListItemIcon>
+                  <BuildIcon  className={classes.links}/>
+                </ListItemIcon>
+                <ListItemText primary='Ventas' />
+              </ListItem>
+            </Link>
         </List>
         <Divider />
       </Drawer>

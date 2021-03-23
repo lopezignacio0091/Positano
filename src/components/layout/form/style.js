@@ -1,5 +1,6 @@
 import { makeStyles} from '@material-ui/core/styles';
 import teal from '@material-ui/core/colors/teal';
+import grey from '@material-ui/core/colors/grey';
 export default makeStyles({
     root: {
         display: 'flex',
@@ -13,6 +14,11 @@ export default makeStyles({
           width:'75%',
           marginLeft:'10%'
       },
+      chips:{
+        width:'75%',
+        marginLeft:'10%',
+        marginTop:'3%'
+    },
       grid:{
           marginTop:'5%'
       },
@@ -22,12 +28,15 @@ export default makeStyles({
           marginBottom:'10%'
       },
       img:{
-          marginLeft:'30%',
-          marginTop:'5%'
+          marginLeft:'25%',
+          marginTop:'2%'
       }, 
       Botton:{
           backgroundColor:teal[400],
           width:'75%',
           marginLeft:'10%'
-      }   
+      },
+      header:{
+            backgroundColor:grey[100]
+      }  
 })

@@ -1,5 +1,6 @@
 import React from 'react'
-import FormularioFormik from '../layout/form/FormularioFormik';
+import Header from '../layout/home/Header'
+import Chart from '../layout/chart/Chart';
 import Grid from '@material-ui/core/Grid';
 const Home = () =>( 
     <Grid
@@ -9,11 +10,11 @@ const Home = () =>(
     alignItems="center"
     style={{margin:'15px'}}
     >
-        <Grid container item xs={12} sm={12} md={6} lg={6}>
-           <FormularioFormik />
+        <Grid container item xs={12} sm={12} md={12} lg={12}>
+            <Header/>
         </Grid>
-        <Grid container item xs={12} sm={12} md={3} lg={3}>
-
+        <Grid container item xs={12} sm={12} md={12} lg={12}>
+         <Chart/>
         </Grid>
         
     </Grid>

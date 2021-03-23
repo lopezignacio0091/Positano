@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, getProducto, setLoading } from '../../../actions/FormularioAction';
+import { getUsuario, getProducto, getGustos,setLoading } from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
-import { Button, LinearProgress, FormControlLabel, Radio, Grid, Card, Checkbox, Paper, Chip } from '@material-ui/core';
+import { Button, LinearProgress, FormControlLabel, Typography , Grid, Card, Checkbox, Paper , Chip ,ListItemIcon} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import { TextField } from 'formik-material-ui';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -11,28 +11,52 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import InputLabel from '@material-ui/core/InputLabel';
 import SettingsPhoneRoundedIcon from '@material-ui/icons/SettingsPhoneRounded';
 import ContactMailRoundedIcon from '@material-ui/icons/ContactMailRounded';
-import Logo from '../../../img/positanoLogo.jpeg';
+import Logo from '../../../img/positanoLogo.jpg';
 import Progress from '../../layout/progress/Progress'
 import LeakRemoveIcon from '@material-ui/icons/LeakRemove';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Alert from '../alert/Alert'
 import { Select } from 'formik-material-ui';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import styles from './style'
 import * as Yup from "yup";
-const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, loading, productos, existe }, getUsuario, getProducto, setLoading }) => {
+const FormularioFormik = ({ formularioReducer: {loading, productos, existe,gustos}, getUsuario, getProducto, getGustos,setLoading }) => {
 
     const classes = styles();
     useEffect(() => {
         setLoading();
         getProducto();
+        getGustos();
     }, []);
 
-    const handleDelete = (values, setFieldValue,valueToRemove) => () => {
+    const handleDelete = (values, setFieldValue, valueToRemove) => () => {
         const filteredItems = values.pedido.filter(item => item !== valueToRemove)
-        setFieldValue('pedido',filteredItems);
+        setFieldValue('pedido', filteredItems);
+    };
+    const handleAdd = (values, setFieldValue, valueToAdd) => () => { 
+        values.pedido.push(valueToAdd);
+        setFieldValue('pedido', values.pedido);
     };
 
+
+
+    const setCheck=(values, setFieldValue, item)=>{  
+        item.AgregarGustos=true;  
+        values.pedido.push(item);
+        setFieldValue('pedido',values.pedido);
+        setFieldValue('agregarGustos',true);
+        
+    }
+    
+    const  addGusto=(values, setFieldValue,item)=>{
+        let filterItem = values.pedido.filter(itemFilter => itemFilter.AgregarGustos==true && !itemFilter.Gustos.indexOf(item))
+        filterItem[0].Gustos.push(item);
+        setFieldValue('pedido',values.pedido);
+    }
+
+   
+    
     if (loading) {
         return (
             <Progress />
@@ -45,17 +69,21 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
     return (
 
         <Formik
+        enableReinitialize={true}
             initialValues={{
-                nombre: nombre,
-                telefono: telefono,
-                pedido: [],
-                domicilio: domicilio
+                nombre:'',
+                telefono:'',
+                pedido:[],
+                domicilio: '',
+                gustos:[],
+                agregarGustos:false
+                
             }}
             validationSchema={SignupSchema}
             onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
                     setSubmitting(false);
-                    alert(JSON.stringify(values, null, 2));
+                    alert(JSON.stringify(values));
                 }, 500);
             }}
         >
@@ -63,18 +91,15 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
                 <Form>
                     <Card className={classes.container}>
                         <Grid container>
-                            <Grid item xs={12} md={12} lg={12}>
+                            <Grid item xs={12} md={12} lg={12} className={classes.header}>
                                 <img
                                     alt=""
                                     src={Logo}
-                                    width="230"
-                                    height="200"
+                                    width="350"
+                                    height="280"
                                     color="white"
                                     className={classes.img}
                                 />
-                            </Grid>
-                            <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                                <Divider />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Field
@@ -103,13 +128,14 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
                                 >
                                     Validar Usuario
                                     </Button>
-                                <diV xs={12} md={12} lg={12} className={classes.grid}>
+                                <Grid xs={12} md={12} lg={12} className={classes.grid}>
                                     {
                                         (existe) ? <Alert /> : null
                                     }
 
-                                </diV>
+                                </Grid>
                             </Grid>
+                            {isSubmitting && <LinearProgress />}
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Divider />
                             </Grid>
@@ -122,7 +148,6 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
                                     label="Nombre"
                                     placeholder="Ingrese Nombre"
                                     className={classes.inputs}
-                                    value={nombre}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -135,10 +160,9 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Field
                                     component={TextField}
-                                    name="Domicilio"
+                                    name="domicilio"
                                     type="Domicilio"
                                     label="Domicilio"
-                                    value={domicilio}
                                     placeholder="Ingrese Domicilio"
                                     className={classes.inputs}
                                     InputProps={{
@@ -151,39 +175,43 @@ const FormularioFormik = ({ formularioReducer: { nombre, domicilio, telefono, lo
                                 />
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
-                                <FormControl className={classes.inputs}>
-                                    <InputLabel htmlFor="nacionalidad">Pedido</InputLabel>
-                                    <Field
-                                        component={Select}
-                                        name='pedido'
-                                        multiple={true}
-                                        isMulti={true}
-                                        inputProps={{
-                                            id: 'pedido',
-                                        }}
-                                    >
-                                        {productos.length > 0 && productos.map((item, index) => (
-                                            <MenuItem value={item.Nombre} key={index}>{item.Nombre}</MenuItem>
+                                <FormControl className={classes.inputs}>       
+                                        {productos.length > 0 && productos.map((item) => (
+                                            <label>
+                                            <Field type="checkbox"  value={item.Nombre} onClick={()=>setCheck(values,setFieldValue,item)} />
+                                            {item.Nombre}
+                                          </label>
                                         ))
                                         }
-                                    </Field>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={4} lg={4} className={classes.grid}>
-                                     {values.pedido.map((data) => {
-                                        return (
+                            <Grid item xs={12} md={12} lg={12} className={classes.chips}>
+                                {values.pedido.map((data) => {
+                                    return (
                                             <Chip
-                                              icon={LeakRemoveIcon}
-                                              label={data}
-                                              onDelete={handleDelete(values, setFieldValue,data)}
-                                              className={classes.chip}
-                                            />
-                                        );
-                                      })}
-                                
-                                     
+                                                icon={LeakRemoveIcon}
+                                                label={data.Nombre}
+                                                onDelete={handleDelete(values, setFieldValue, data)}
+                                                className={classes.chip}
+                                                onClick={handleAdd(values, setFieldValue, data)}
+                                            />  
+                                    );
+                                })}
                             </Grid>
-
+                            {(values.agregarGustos)?<Grid item xs={12} md={12} lg={12} className={classes.grid}>
+                            <FormControl className={classes.inputs}>
+                               <Field
+                                        component={Select}
+                                        name="gustos"
+                                        multiple={true}  
+                                    >
+                                        {gustos.length > 0 && gustos.map((item, index) => (
+                                         <MenuItem   onClick={()=>addGusto(values, setFieldValue,item.Nombre)} value={item.Nombre} key={index}>{item.Nombre}</MenuItem>
+                                         ))}
+                                    </Field>   
+                                </FormControl>
+                            </Grid> : null }
+                            
                             <Grid item xs={12} md={12} lg={12}>
                                 {isSubmitting && <LinearProgress />}
                             </Grid>
@@ -223,5 +251,5 @@ const mapProps = state => ({
     formularioReducer: state.formularioReducer
 })
 
-export default connect(mapProps, { getUsuario, getProducto, setLoading })(FormularioFormik);
+export default connect(mapProps, { getUsuario, getProducto,getGustos, setLoading })(FormularioFormik);
 // export default connect(mapProps, {})(FormularioFormik);

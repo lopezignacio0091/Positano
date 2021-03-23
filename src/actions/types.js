@@ -6,3 +6,5 @@ export const SET_NOMBRE='SET_NOMBRE';
 export const SET_TELEFONO='SET_TELEFONO';
 export const SET_DOMICILIO='SET_DOMICILIO';
 export const NOT_FOUND_USER='NOT_FOUND_USER';
+export const GET_GUSTOS = 'GET_GUSTOS';
+export const GET_COMPRAS = 'GET_COMPRAS';
