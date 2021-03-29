@@ -41,11 +41,12 @@ export const getProducto = () => async dispatch => {
                 for (let i = 0; i < response.data.length; i++) {
                     let objDTO = response.data[i];
                     let obj = {};
-                    obj["Precio"] = objDTO.precio;
-                    obj["Id"] = objDTO.productoId;
-                    obj["Nombre"] = objDTO.nombre;
-                    obj["Gustos"] = [];
-                    obj["AgregarGustos"]=false;
+                    obj["precio"] = objDTO.precio;
+                    obj["id"] = objDTO.productoId;
+                    obj["nombre"] = objDTO.nombre;
+                    obj["gusto"] = [];
+                    obj["idPedido"]=-1;
+                    obj["color"] = "primary"
                     listProductos.push(obj);
                 }
                 dispatch({
@@ -93,9 +94,10 @@ export const getGustos = () => async dispatch => {
                 for (let i = 0; i < response.data.length; i++) {
                     let objDTO = response.data[i];
                     let obj = {};
-                    obj["Stock"] = objDTO.stock;
-                    obj["Id"] = objDTO.productoId;
-                    obj["Nombre"] = objDTO.nombre;
+                    obj["stock"] = objDTO.stock;
+                    obj["id"] = objDTO.gustoId;
+                    obj["nombre"] = objDTO.nombre;
+                    obj["seleccionado"]= false;
 
                     objItemLabel.push(objDTO.nombre);
                     objItemDate.push(objDTO.stock);

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useEffect, useMemo } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getUsuario, getProducto, getGustos, setLoading } from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
@@ -23,6 +23,7 @@ import styles from './style'
 import * as Yup from "yup";
 const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gustos }, getUsuario, getProducto, getGustos, setLoading }) => {
 
+    const [pedidoSeleccionado, setPedidoSeleccionado] = useState(-1);
     const classes = styles();
     useEffect(() => {
         setLoading();
@@ -36,46 +37,56 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     };
 
     const setPedido = (values, setFieldValue, item) => {
-        let filterItem = values.pedido.filter(itemFilter => itemFilter.AgregarGustos == true)
-        if (filterItem[0]) {
-            filterItem[0].Gustos = values.gustos;
-            filterItem[0].AgregarGustos = false; 
-            setFieldValue('agregarGustos', false);
-            setFieldValue('pedido', values.pedido); 
-            setFieldValue('gustos',[]);
-        }
-    }
-
-    const setCheck = (values, setFieldValue, item) => {
-        item.AgregarGustos = true;
-        values.pedido.push(item);
-        setFieldValue('pedido', values.pedido);
+        setPedidoSeleccionado(item);
+        validarGustos(item);
+        validarPedido(values,item);
         setFieldValue('agregarGustos', true);
     }
 
-    
+    const validarPedido = (values,item) => {
+        values.pedido.forEach(element => {
+           (element.idPedido == item.idPedido) ? element.color="secondary" : element.color="primary"
+        });
+    }
+    const validarGustos = (item) => {
+        gustos.forEach(element => {
+            let value = item.gusto.indexOf(element.nombre);
+            (value >= 0) ? element.seleccionado = true : element.seleccionado = false;
+        });
+    }
+
+
+    const setCheck = (values, setFieldValue, item) => {
+        values.pedido.push(item);
+        item.idPedido = values.pedido.length;
+        setFieldValue('pedido', values.pedido);
+        //setFieldValue('agregarGustos', true);
+    }
+
+    const setGustos = (itemCheckBox) => {
+        itemCheckBox.seleccionado = !itemCheckBox.seleccionado;
+        pedidoSeleccionado.gusto.push(itemCheckBox.nombre);      
+    }
+
 
     if (loading) {
         return (
             <Progress />
         )
     }
+
     const SignupSchema = Yup.object().shape({
         nombre: Yup.string().min(2, 'Too Short!').max(70, 'Too Long!').matches(/^[a-zA-Z ]+$/, "Invalid Name only letters").required('Required'),
         telefono: Yup.number().min(8, 'Not valid Telefone too short').required('Required'),
     });
     return (
-
         <Formik
-            enableReinitialize={true}
             initialValues={{
                 nombre: '',
                 telefono: '',
                 pedido: [],
                 domicilio: '',
-                gustos: [],
                 agregarGustos: false
-
             }}
             validationSchema={SignupSchema}
             onSubmit={(values, { setSubmitting }) => {
@@ -177,39 +188,36 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                 <FormControl className={classes.inputs}>
                                     {productos.length > 0 && productos.map((item) => (
                                         <label>
-                                            <Field type="checkbox" value={item.Nombre} onClick={() => setCheck(values, setFieldValue, item)} />
-                                            {item.Nombre}
+                                            <Field type="checkbox" value={item.nombre} onClick={() => setCheck(values, setFieldValue, item)} />
+                                            {item.nombre}
                                         </label>
-                                    ))
-                                    }
+                                    ))}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.chips}>
                                 {values.pedido.map((data) => {
                                     return (
-                                            <Chip
-                                                icon={LeakRemoveIcon}
-                                                label={data.Nombre}
-                                                onDelete={handleDelete(values, setFieldValue, data)}
-                                                className={classes.chip}
-                                                onClick={() => setPedido(values, setFieldValue, data)}
-                                            />
+                                        <Chip
+                                            icon={LeakRemoveIcon}
+                                            label={data.nombre}
+                                            onDelete={handleDelete(values, setFieldValue, data)}
+                                            className={classes.chip}
+                                            onClick={() => setPedido(values, setFieldValue, data)}
+                                            color={data.color}
+                                        />
                                     );
                                 })}
                             </Grid>
-                            {(values.agregarGustos) ? <Grid item xs={12} md={12} lg={12} className={classes.grid}>
+                            {(values.agregarGustos) && <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <FormControl className={classes.inputs}>
-                                    <Field
-                                        component={Select}
-                                        name="gustos"
-                                        multiple={true}
-                                    >
-                                        {gustos.length > 0 && gustos.map((item, index) => (
-                                            <MenuItem value={item.Nombre} key={index}>{item.Nombre}</MenuItem>
-                                        ))}
-                                    </Field>
+                                    {gustos.length > 0 && gustos.map((item) => (
+                                        <FormControlLabel
+                                            control={<Checkbox checked={item.seleccionado} onClick={() => setGustos(item)} name={item.nombre} />}
+                                            label={item.nombre}
+                                        />
+                                    ))}
                                 </FormControl>
-                            </Grid> : null}
+                            </Grid>}
                             <Grid item xs={12} md={12} lg={12}>
                                 {isSubmitting && <LinearProgress />}
                             </Grid>
@@ -228,7 +236,7 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                     variant="contained"
                                     color="secondary"
                                     disabled={isSubmitting}
-                                    onClick={() => { alert('cancelado') }}
+                                    onClick={() => { alert('cancelado')}}
                                     className={classes.inputs}
                                 >
                                     Cancelar
