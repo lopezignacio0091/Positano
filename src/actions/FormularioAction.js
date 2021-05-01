@@ -1,4 +1,4 @@
-import { LOADING, ERROR, SET_TELEFONO, GET_USER, GET_PRODUCTO, NOT_FOUND_USER,GET_GUSTOS } from './types';
+import { LOADING, ERROR, SET_TELEFONO, GET_USER, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS } from './types';
 
 export const setLoading = () => {
     return {
@@ -45,7 +45,7 @@ export const getProducto = () => async dispatch => {
                     obj["id"] = objDTO.productoId;
                     obj["nombre"] = objDTO.nombre;
                     obj["gusto"] = [];
-                    obj["idPedido"]=-1;
+                    obj["idPedido"] = -1;
                     obj["color"] = "primary"
                     listProductos.push(obj);
                 }
@@ -75,6 +75,7 @@ export const setTelefono = (event) => dispatch => {
 }
 
 
+
 export const getGustos = () => async dispatch => {
 
     try {
@@ -90,35 +91,52 @@ export const getGustos = () => async dispatch => {
                 const listGustos = [];
                 const objItemLabel = [];
                 const objItemDate = [];
-          
+
                 for (let i = 0; i < response.data.length; i++) {
                     let objDTO = response.data[i];
+                    //let gustoDTO = new GustoDTO(objDTO.nombre,objDTO.stock,objDTO.gustoId);
                     let obj = {};
                     obj["stock"] = objDTO.stock;
                     obj["id"] = objDTO.gustoId;
                     obj["nombre"] = objDTO.nombre;
-                    obj["seleccionado"]= false;
-
+                    obj["seleccionado"] = false;
                     objItemLabel.push(objDTO.nombre);
                     objItemDate.push(objDTO.stock);
                     listGustos.push(obj);
                 }
                 dispatch({
                     type: GET_GUSTOS,
-                    payload: {listGustos,objItemLabel,objItemDate}
+                    payload: { listGustos, objItemLabel, objItemDate }
                 });
             })
             .catch(function (error) {
                 console.log(error);
             });
 
-    }catch(error){
+    } catch (error) {
         dispatch({
             type: ERROR,
             payload: 'Error buscando gusts\n ' + error
         });
     }
-    
 
+
+}
+
+export const postCompra = (values,listGusto) => async dispatch => {
+    var axios = require('axios');
+     let usuario = {};
+     usuario.telefono = values.telefono;
+     usuario.nombre = values.nombre;
+
+     var data = JSON.stringify({"listaProductos":values.pedido,"Usuario":usuario,"listaGusto":listGusto});
+    var config = {method: 'post',url: 'http://localhost:24981/api/compra',headers: {'Content-Type': 'application/json',}, data: data};
+    axios(config)
+        .then(function (response) {
+            console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 

@@ -1,17 +1,14 @@
-import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO,GET_PRODUCTO,NOT_FOUND_USER,GET_GUSTOS } from "../actions/types";
-
+import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS } from "../actions/types";
 const initialState = {
     loading: false,
     error: '',
-    nombre: '',
-    domicilio: '',
-    telefono: '',
-    productos:[],
-    TipoPedido:[],
-    existe:false,
-    gustos:[],
-    listGustoLabel:[],
-    listGustoDate:[]
+    user: {},
+    productos: [],
+    TipoPedido: [],
+    existe: false,
+    gustos: [],
+    listGustoLabel: [],
+    listGustoDate: []
 
 };
 
@@ -20,44 +17,43 @@ export default (state = initialState, action) => {
         case GET_USER:
             return {
                 ...state,
-                domicilio:action.payload.domicilio,
-                nombre:action.payload.nombre,
+                user: action.payload,
                 loading: false,
-                existe :false
+                existe: false
             }
-            case NOT_FOUND_USER:
-                return {
-                    ...state,
-                    loading: false,
-                    existe :true
-                }
-                case GET_PRODUCTO:
-                    return {
-                        ...state,
-                        productos:action.payload,
-                    }
-                    case GET_GUSTOS:
-                    return {
-                        ...state,
-                        gustos:action.payload.listGustos,
-                        listGustoLabel:action.payload.objItemLabel,
-                        listGustoDate:action.payload.objItemDate,
-                        loading: false
-                    }
+        case NOT_FOUND_USER:
+            return {
+                ...state,
+                loading: false,
+                existe: true
+            }
+        case GET_PRODUCTO:
+            return {
+                ...state,
+                productos: action.payload,
+            }
+        case GET_GUSTOS:
+            return {
+                ...state,
+                gustos: action.payload.listGustos,
+                listGustoLabel: action.payload.objItemLabel,
+                listGustoDate: action.payload.objItemDate,
+                loading: false
+            }
         case SET_NOMBRE:
             return {
                 ...state,
-                nombre:action.payload
+                nombre: action.payload
             }
         case SET_TELEFONO:
             return {
                 ...state,
-                telefono:action.payload
+                telefono: action.payload
             }
         case SET_DOMICILIO:
             return {
                 ...state,
-                domicilio:action.payload
+                domicilio: action.payload
             }
         case LOADING:
             return {

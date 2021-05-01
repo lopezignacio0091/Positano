@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, getProducto, getGustos, setLoading } from '../../../actions/FormularioAction';
+import { getUsuario, getProducto, getGustos, setLoading,postCompra } from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
 import { Button, LinearProgress, FormControlLabel, Avatar, Grid, Card, Checkbox, Chip, ListItemIcon } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -21,9 +21,11 @@ import { Select } from 'formik-material-ui';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import styles from './style'
 import * as Yup from "yup";
-const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gustos }, getUsuario, getProducto, getGustos, setLoading }) => {
+import PedidoDTO from '../../../classDTO/PedidoDTO'
+const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gustos}, getUsuario, getProducto, getGustos, setLoading,postCompra }) => {
 
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(-1);
+    const [idPedido ,setIdPedido] = useState(0);
     const classes = styles();
     useEffect(() => {
         setLoading();
@@ -34,12 +36,16 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     const handleDelete = (values, setFieldValue, valueToRemove) => () => {
         const filteredItems = values.pedido.filter(item => item !== valueToRemove)
         setFieldValue('pedido', filteredItems);
+        if(filteredItems.length==0){
+            setFieldValue('agregarGustos',false);
+        }
     };
 
     const setPedido = (values, setFieldValue, item) => {
         setPedidoSeleccionado(item);
         validarGustos(item);
         validarPedido(values,item);
+
         setFieldValue('agregarGustos', true);
     }
 
@@ -50,22 +56,30 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     }
     const validarGustos = (item) => {
         gustos.forEach(element => {
-            let value = item.gusto.indexOf(element.nombre);
+            let value = item.gustos.indexOf(element.nombre);
             (value >= 0) ? element.seleccionado = true : element.seleccionado = false;
         });
     }
 
 
-    const setCheck = (values, setFieldValue, item) => {
-        values.pedido.push(item);
-        item.idPedido = values.pedido.length;
+    const setCheck = (values, setFieldValue,item) => {
+        let pedidoDTO = new PedidoDTO(item.nombre,item.id,values.pedido.length,item.precio);
+        values.pedido.push(pedidoDTO)
         setFieldValue('pedido', values.pedido);
         //setFieldValue('agregarGustos', true);
     }
 
-    const setGustos = (itemCheckBox) => {
+    const setGustos = (values,setFieldValue,itemCheckBox) => {
         itemCheckBox.seleccionado = !itemCheckBox.seleccionado;
-        pedidoSeleccionado.gusto.push(itemCheckBox.nombre);      
+        (itemCheckBox.seleccionado)? pedidoSeleccionado.gustos.push(itemCheckBox.nombre) : removeGusto(values,setFieldValue,itemCheckBox);      
+    }
+
+    const removeGusto =(values,setFieldValue,itemCheckBox)=>{  
+        let pedido = values.pedido.filter(elem =>elem.idPedido == pedidoSeleccionado.idPedido);
+        let gustos =pedido[0].gustos.filter(elem => elem !=itemCheckBox.nombre);
+        pedido[0].gustos = gustos;
+        setFieldValue('pedido',values.pedido);
+        
     }
 
 
@@ -75,10 +89,29 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
         )
     }
 
+    const armandoPedido=(values)=>{
+     
+        let listGustos = obteniendoGustos(values.pedido);
+        postCompra(values,listGustos);
+    }
+
+    const obteniendoGustos=(pedidos)=>{
+        let listGustos =[];
+        for(let i=0;i<pedidos.length;i++){
+            for(let z = 0 ;z<pedidos[i].gusto.length;z++){
+                var item={nombre:""};
+                item.nombre = pedidos[i].gusto[z];
+                listGustos.push(item);
+            }
+          }
+        return listGustos;
+    }
+   
     const SignupSchema = Yup.object().shape({
         nombre: Yup.string().min(2, 'Too Short!').max(70, 'Too Long!').matches(/^[a-zA-Z ]+$/, "Invalid Name only letters").required('Required'),
         telefono: Yup.number().min(8, 'Not valid Telefone too short').required('Required'),
     });
+
     return (
         <Formik
             initialValues={{
@@ -89,10 +122,11 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                 agregarGustos: false
             }}
             validationSchema={SignupSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting }) =>{
                 setTimeout(() => {
+                    armandoPedido(values);
                     setSubmitting(false);
-                    alert(JSON.stringify(values));
+                    alert(JSON.stringify(values));            
                 }, 500);
             }}
         >
@@ -194,25 +228,26 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                     ))}
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={12} lg={12} className={classes.chips}>
+                            <Grid  item  xs={12} md={12} lg={12} className={classes.chips}>
                                 {values.pedido.map((data) => {
                                     return (
-                                        <Chip
+                                           <Chip
                                             icon={LeakRemoveIcon}
                                             label={data.nombre}
                                             onDelete={handleDelete(values, setFieldValue, data)}
                                             className={classes.chip}
                                             onClick={() => setPedido(values, setFieldValue, data)}
                                             color={data.color}
-                                        />
+                                        /> 
+                                        
                                     );
                                 })}
                             </Grid>
-                            {(values.agregarGustos) && <Grid item xs={12} md={12} lg={12} className={classes.grid}>
+                            {(values.agregarGustos) && <Grid container item xs={12} md={12} lg={12} className={classes.grid}>
                                 <FormControl className={classes.inputs}>
                                     {gustos.length > 0 && gustos.map((item) => (
                                         <FormControlLabel
-                                            control={<Checkbox checked={item.seleccionado} onClick={() => setGustos(item)} name={item.nombre} />}
+                                            control={<Checkbox checked={item.seleccionado} onClick={() => setGustos(values,setFieldValue,item)} name={item.nombre} />}
                                             label={item.nombre}
                                         />
                                     ))}
@@ -255,5 +290,5 @@ const mapProps = state => ({
     formularioReducer: state.formularioReducer
 })
 
-export default connect(mapProps, { getUsuario, getProducto, getGustos, setLoading })(FormularioFormik);
+export default connect(mapProps, { getUsuario, getProducto, getGustos, setLoading,postCompra })(FormularioFormik);
 // export default connect(mapProps, {})(FormularioFormik);
