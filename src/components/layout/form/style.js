@@ -1,5 +1,5 @@
 import { makeStyles} from '@material-ui/core/styles';
-import teal from '@material-ui/core/colors/teal';
+import blueGrey from '@material-ui/core/colors/blueGrey';
 import grey from '@material-ui/core/colors/grey';
 export default makeStyles({
     root: {
@@ -32,7 +32,7 @@ export default makeStyles({
           marginTop:'2%'
       }, 
       Botton:{
-          backgroundColor:teal[400],
+          backgroundColor:blueGrey[400],
           width:'75%',
           marginLeft:'10%'
       },

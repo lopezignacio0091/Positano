@@ -1,8 +1,14 @@
-import { LOADING, ERROR, SET_TELEFONO, GET_USER, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS } from './types';
+import { LOADING, ERROR, SET_TELEFONO, GET_USER, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS,LOADING_USER } from './types';
 
 export const setLoading = () => {
     return {
         type: LOADING
+    };
+};
+
+export const setLoadingUser = () => {
+    return {
+        type: LOADING_USER
     };
 };
 
@@ -97,7 +103,7 @@ export const getGustos = () => async dispatch => {
                     //let gustoDTO = new GustoDTO(objDTO.nombre,objDTO.stock,objDTO.gustoId);
                     let obj = {};
                     obj["stock"] = objDTO.stock;
-                    obj["id"] = objDTO.gustoId;
+                    obj["gustoId"] = objDTO.gustoId;
                     obj["nombre"] = objDTO.nombre;
                     obj["seleccionado"] = false;
                     objItemLabel.push(objDTO.nombre);
@@ -123,13 +129,14 @@ export const getGustos = () => async dispatch => {
 
 }
 
-export const postCompra = (values,listGusto) => async dispatch => {
+export const postCompra = (values) => async dispatch => {
     var axios = require('axios');
      let usuario = {};
      usuario.telefono = values.telefono;
      usuario.nombre = values.nombre;
+     usuario.domicilio = values.domicilio;
 
-     var data = JSON.stringify({"listaProductos":values.pedido,"Usuario":usuario,"listaGusto":listGusto});
+     var data = JSON.stringify({"listaProductos":values.pedido,"Usuario":usuario,});
     var config = {method: 'post',url: 'http://localhost:24981/api/compra',headers: {'Content-Type': 'application/json',}, data: data};
     axios(config)
         .then(function (response) {

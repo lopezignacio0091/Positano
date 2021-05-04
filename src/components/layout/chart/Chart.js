@@ -1,6 +1,7 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {setLoading} from '../../../actions/FormularioAction'
+import {setLoading,getChart} from '../../../actions/ChartActions'
 import indigo from '@material-ui/core/colors/indigo';
 import grey from '@material-ui/core/colors/grey';
 import clsx from 'clsx';
@@ -30,7 +31,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Sales = ({ formularioReducer: { listGustoLabel,listGustoDate},setLoading,className, ...rest} ) => {
+const Sales = ({ 
+  chartReducer: { listGustoLabel,listGustoDate},setLoading,getChart,
+  formularioReducer:{gustos},className, ...rest
+}) => {
+
+  useEffect(() => {
+    setLoading();
+    getChart(gustos);
+}, []);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -137,7 +146,8 @@ Sales.propTypes = {
 };
 
 const mapProps = state => ({
-    formularioReducer: state.formularioReducer
+  chartReducer: state.chartReducer,
+  formularioReducer:state.formularioReducer,
 })
 
-export default connect(mapProps, {setLoading})(Sales);
+export default connect(mapProps, {setLoading,getChart})(Sales);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getUsuario, getProducto, getGustos, setLoading,postCompra } from '../../../actions/FormularioAction';
+import { getUsuario, getProducto, getGustos, setLoading,postCompra ,setLoadingUser} from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
 import { Button, LinearProgress, FormControlLabel, Avatar, Grid, Card, Checkbox, Chip, ListItemIcon } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -22,10 +22,10 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import styles from './style'
 import * as Yup from "yup";
 import PedidoDTO from '../../../classDTO/PedidoDTO'
-const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gustos}, getUsuario, getProducto, getGustos, setLoading,postCompra }) => {
+const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gustos,loadingUser}, getUsuario, getProducto, getGustos, setLoading,postCompra,setLoadingUser }) => {
 
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(-1);
-    const [idPedido ,setIdPedido] = useState(0);
+    const [listGusto,setListGusto] = useState([]);
     const classes = styles();
     useEffect(() => {
         setLoading();
@@ -56,8 +56,8 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     }
     const validarGustos = (item) => {
         gustos.forEach(element => {
-            let value = item.gustos.indexOf(element.nombre);
-            (value >= 0) ? element.seleccionado = true : element.seleccionado = false;
+                let value = item.gustos.filter(aux=>{return element.gustoId == aux.gustoId});
+            (value.length>0) ? element.seleccionado = true : element.seleccionado = false;
         });
     }
 
@@ -70,18 +70,24 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     }
 
     const setGustos = (values,setFieldValue,itemCheckBox) => {
+      
         itemCheckBox.seleccionado = !itemCheckBox.seleccionado;
-        (itemCheckBox.seleccionado)? pedidoSeleccionado.gustos.push(itemCheckBox.nombre) : removeGusto(values,setFieldValue,itemCheckBox);      
+        (itemCheckBox.seleccionado)? pedidoSeleccionado.gustos.push(itemCheckBox) : removeGusto(values,setFieldValue,itemCheckBox);      
     }
 
     const removeGusto =(values,setFieldValue,itemCheckBox)=>{  
         let pedido = values.pedido.filter(elem =>elem.idPedido == pedidoSeleccionado.idPedido);
-        let gustos =pedido[0].gustos.filter(elem => elem !=itemCheckBox.nombre);
+        let gustos =pedido[0].gustos.filter(elem => elem.gustoId !=itemCheckBox.gustoId);
         pedido[0].gustos = gustos;
         setFieldValue('pedido',values.pedido);
         
     }
 
+
+    const validarUsuario =(values, setFieldValue)=>{
+        setLoadingUser();
+        getUsuario(values, setFieldValue)
+    }
 
     if (loading) {
         return (
@@ -90,22 +96,10 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
     }
 
     const armandoPedido=(values)=>{
-     
-        let listGustos = obteniendoGustos(values.pedido);
-        postCompra(values,listGustos);
+        postCompra(values); 
     }
 
-    const obteniendoGustos=(pedidos)=>{
-        let listGustos =[];
-        for(let i=0;i<pedidos.length;i++){
-            for(let z = 0 ;z<pedidos[i].gusto.length;z++){
-                var item={nombre:""};
-                item.nombre = pedidos[i].gusto[z];
-                listGustos.push(item);
-            }
-          }
-        return listGustos;
-    }
+ 
    
     const SignupSchema = Yup.object().shape({
         nombre: Yup.string().min(2, 'Too Short!').max(70, 'Too Long!').matches(/^[a-zA-Z ]+$/, "Invalid Name only letters").required('Required'),
@@ -163,10 +157,10 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Button
-                                    variant="contained"
                                     color="secondary"
+                                    variant="contained"
                                     className={classes.inputs}
-                                    onClick={() => getUsuario(values, setFieldValue)}
+                                    onClick={() => validarUsuario(values, setFieldValue)}
                                 >
                                     Validar Usuario
                                     </Button>
@@ -178,7 +172,7 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={12} lg={12}>
-                                {loading && <LinearProgress />}
+                                {loadingUser && <LinearProgress />}
                             </Grid>
                             <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                 <Divider />
@@ -190,6 +184,7 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                     name="nombre"
                                     type="text"
                                     label="Nombre"
+                                    disabled={!existe}
                                     placeholder="Ingrese Nombre"
                                     className={classes.inputs}
                                     InputProps={{
@@ -207,6 +202,7 @@ const FormularioFormik = ({ formularioReducer: { loading, productos, existe, gus
                                     name="domicilio"
                                     type="Domicilio"
                                     label="Domicilio"
+                                    disabled={!existe}
                                     placeholder="Ingrese Domicilio"
                                     className={classes.inputs}
                                     InputProps={{
@@ -290,5 +286,5 @@ const mapProps = state => ({
     formularioReducer: state.formularioReducer
 })
 
-export default connect(mapProps, { getUsuario, getProducto, getGustos, setLoading,postCompra })(FormularioFormik);
+export default connect(mapProps, { getUsuario, getProducto, getGustos, setLoading,postCompra,setLoadingUser })(FormularioFormik);
 // export default connect(mapProps, {})(FormularioFormik);
