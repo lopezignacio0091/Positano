@@ -1,7 +1,7 @@
-import { LOADING, ERROR, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS,LOADING_USER } from "../actions/types";
+import { LOADING, ERROR, OK_PEDIDO, CERRAR_MENSAJE, NEW_PEDIDO, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS, LOADING_USER } from "../actions/types";
 const initialState = {
     loading: false,
-    loadingUser:false,
+    loadingUser: false,
     error: '',
     user: {},
     productos: [],
@@ -9,23 +9,30 @@ const initialState = {
     existe: false,
     gustos: [],
     listGustoLabel: [],
-    listGustoDate: []
-
+    listGustoDate: [],
+    mostrarMensaje:false,
+    textoMensaje:''
 };
+import _ from 'lodash';
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case GET_USER:
             return {
                 ...state,
-                user: action.payload,
-                loadingUser:false,
+                user: action.payload.data,
+                loadingUser: false,
                 existe: false
+            }
+        case GET_USER:
+            return {
+                ...state,
+                pedido: action.payload,
             }
         case NOT_FOUND_USER:
             return {
                 ...state,
-                loadingUser:false,
+                loadingUser: false,
                 existe: true,
             }
         case GET_PRODUCTO:
@@ -36,9 +43,7 @@ export default (state = initialState, action) => {
         case GET_GUSTOS:
             return {
                 ...state,
-                gustos: action.payload.listGustos,
-                listGustoLabel: action.payload.objItemLabel,
-                listGustoDate: action.payload.objItemDate,
+                gustos: action.payload,
                 loading: false
             }
         case SET_NOMBRE:
@@ -61,16 +66,27 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-            case LOADING_USER:
-                return {
-                    ...state,
-                    loadingUser: true
-                };
+        case LOADING_USER:
+            return {
+                ...state,
+                loadingUser: true
+            };
         case ERROR:
             return {
                 ...state,
                 error: action.payload
-            }
+            };
+            case CERRAR_MENSAJE:
+            return {
+                ...state,
+                mostrarMensaje: action.payload
+            };
+        case OK_PEDIDO:
+            return {
+                ...state,
+                mostrarMensaje:true,
+                textoMensaje:'El pedido fue creado'
+            };
         default:
             return state;
     }

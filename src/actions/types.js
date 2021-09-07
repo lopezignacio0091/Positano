@@ -9,3 +9,7 @@ export const NOT_FOUND_USER='NOT_FOUND_USER';
 export const GET_GUSTOS = 'GET_GUSTOS';
 export const GET_COMPRAS = 'GET_COMPRAS';
 export const LOADING_USER = 'LOADING_USER';
+export const devUrl = 'https://localhost:44347';
+export const CERRAR_MENSAJE = 'CERRAR_MENSAJE';
+export const SET_PEDIDO = 'SET_PEDIDO';
+export const OK_PEDIDO = 'OK_PEDIDO';

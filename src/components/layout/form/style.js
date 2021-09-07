@@ -6,9 +6,10 @@ export default makeStyles({
         display: 'flex',
       },
       container: {
-        marginTop: 100,
+        marginTop: '100px',
         alignContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        padding:'5%'
       },
       inputs:{
           width:'75%',
@@ -20,7 +21,7 @@ export default makeStyles({
         marginTop:'3%'
     },
       grid:{
-          marginTop:'5%'
+          marginTop:'5%',
       },
       gridBotton:{
           marginLeft:'10%',
@@ -31,6 +32,21 @@ export default makeStyles({
           marginLeft:'25%',
           marginTop:'2%'
       }, 
+      label:{
+        marginLeft: '20px',
+        fontStyle: 'normal',
+        fontWeight: '400',
+        fontSize: '12px',
+        lineHeight: '16px',
+        letterSpacing: '0.4px',
+        color: 'rgba(0, 37, 99, 0.6)',
+        fontFamily:'Titillium Web'
+
+    },
+      textField:{
+        width: '100%',
+        marginTop: '5px',
+    },
       Botton:{
           backgroundColor:blueGrey[400],
           width:'75%',
@@ -38,5 +54,12 @@ export default makeStyles({
       },
       header:{
             backgroundColor:grey[100]
-      }  
+      },  
+      gridGustos:{
+        boxShadow: " 0 0 20px",
+        width: "100%", 
+        marginTop: "50px",  
+        marginBottom: "2%", 
+        backgroundColor:"eeebeb"
+      }
 })

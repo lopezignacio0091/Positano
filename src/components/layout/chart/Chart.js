@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import {setLoading,getChart} from '../../../actions/ChartActions'
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading, getChart } from '../../../actions/ChartActions'
 import indigo from '@material-ui/core/colors/indigo';
 import grey from '@material-ui/core/colors/grey';
 import clsx from 'clsx';
@@ -21,25 +21,26 @@ import {
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width:'90%',
-        marginTop:'5%'
-      },
-    header: {
-        backgroundColor:grey[100]
-    },
+  root: {
+    width: '90%',
+    marginTop: '5%'
+  },
+  header: {
+    backgroundColor: grey[100]
+  },
 
 }));
 
-const Sales = ({ 
-  chartReducer: { listGustoLabel,listGustoDate},setLoading,getChart,
-  formularioReducer:{gustos},className, ...rest
-}) => {
+const Sales = () => {
+  const dispatch = useDispatch();
 
+  const { listGustoLabel, listGustoDate } = useSelector(state => state.ChartReducer);
+  const { gustos } = useSelector(state => state.FormularioReducer);
+  
   useEffect(() => {
-    setLoading();
-    getChart(gustos);
-}, []);
+    dispatch(setLoading());
+    dispatch(getChart(gustos));
+  }, []);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -111,33 +112,12 @@ const Sales = ({
   };
 
   return (
-    <Card
-      className={clsx(classes.root,className)}
-      {...rest} 
-    >
-      <CardHeader className={classes.header}
-        title="Stock Gustos"
+    <>
+      <Bar
+        data={data}
+        options={options}
       />
-      <Divider />
-      <CardContent>
-        <Box
-          height={500}
-          position="relative"
-        >
-          <Bar
-            data={data}
-            options={options}
-          />
-        </Box>
-      </CardContent>
-      <Divider />
-      <Box
-        display="flex"
-        justifyContent="flex-end"
-        p={2}
-      >
-      </Box>
-    </Card>
+    </>
   );
 };
 
@@ -145,9 +125,4 @@ Sales.propTypes = {
   className: PropTypes.string
 };
 
-const mapProps = state => ({
-  chartReducer: state.chartReducer,
-  formularioReducer:state.formularioReducer,
-})
-
-export default connect(mapProps, {setLoading,getChart})(Sales);
+export default Sales;
