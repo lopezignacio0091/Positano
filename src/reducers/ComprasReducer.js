@@ -1,11 +1,11 @@
+
 import { LOADING,ERROR,GET_COMPRAS } from "../actions/types";
+import _ from 'lodash';
 
 const initialState = {
-    loading : false,
+    loading : true,
     error : '',
     compras:[],
-    columna:[],
-    options:{},
     total:0,
     cantidadCompras:0,
 };
@@ -20,11 +20,9 @@ export default (state = initialState, action) => {
             case GET_COMPRAS:
             return {
                 ...state,
-                cantidadCompras:action.payload.objItemHome.length,
-                total:action.payload.total,
-                compras:action.payload.objItemHome,
-                columna:action.payload.columns,
-                options:action.payload.options,
+                cantidadCompras:action.payload.length,
+                total:_.sumBy(action.payload, w => { return w.total}),
+                compras:action.payload,
                 loading: false,
             };
         case ERROR:

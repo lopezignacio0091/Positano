@@ -1,0 +1,283 @@
+.MuiTableCell-head{
+    font-family: Titillium Web !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    letter-spacing: 0.25px !important;
+    color: rgba(0, 37, 99, 0.6) !important;
+}
+
+.MuiTableCell-head span button{
+    font-family: Titillium Web !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    letter-spacing: 0.25px !important;
+    color: rgba(0, 37, 99, 0.6) !important;
+}
+.MuiDataGrid-root {
+    flex: 1;
+    color: rgba(0, 0, 0, 0.87);
+    border: 0px !important;
+    height: 98% !important;
+    display: flex;
+    outline: none;
+    position: relative;
+    font-size: 0.875rem;
+    box-sizing: border-box;
+    font-family: "Titillium Web" !important;
+    font-weight: 400;
+    line-height: 1.43;
+    border-radius: 4px;
+    flex-direction: column;
+    letter-spacing: 0.01071em;
+}
+
+.MuiDataGrid-columnsContainer, .MuiDataGrid-columnHeaderTitle {
+    font-family: 'Titillium Web' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+    letter-spacing: 0.5px !important;
+    color: #002563 !important;
+    flex: none !important;
+    order: 0 !important;
+    flex-grow: 0 !important;
+    margin: 0px 8px !important;
+}
+
+.MuiDataGrid-row{
+    font-family: 'Titillium Web' !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+    letter-spacing: 0.5px !important;
+    color: #002563 !important;
+    margin-left: 20px;
+    width: 218px;
+}
+
+.MUIDataTableToolbar-titleText-34{
+    font-family:  'Titillium Web' !important;
+    font-style: normal !important;
+    font-weight: bold !important; 
+    font-size: 22px !important;
+    line-height: 24px !important;
+    letter-spacing: 0.18px !important;
+    color: #002563 !important;
+}
+
+.MUIDataTableHeadCell-data-64{
+    font-family: 'Titillium Web' !important;
+    font-style: normal  !important;
+    font-weight: bold  !important;
+    font-size: 16px  !important;
+    line-height: 18px  !important;
+    letter-spacing: 0.5px  !important;
+    color: #002563  !important;
+    flex: none  !important;
+    order: 0  !important;
+    flex-grow: 0  !important;
+    margin: 0px 8px  !important;
+}
+
+.MUIDataTable-responsiveBase-19{
+    margin: 40px !important;
+}
+
+.MuiTableCell-root{
+    font-family: 'Titillium Web' !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+    letter-spacing: 0.5px !important;
+    color: #002563 !important;
+}
+
+.tablaMargen{
+    margin-top: 53px;
+}
+
+.titulo{
+    font-family: 'Titillium Web';
+    font-style: 'normal';
+    font-weight: '700';
+    font-size: '34px';
+    line-height: '36px';
+    color: '#5974FB';
+    margin-top:'53px';
+}
+
+.titulo h6{
+    font-family: Titillium Web !important;
+    font-style: normal !important;
+    font-weight: bold !important;
+    font-size: 22px !important;
+    line-height: 24px !important;
+    letter-spacing: 0.18px !important;
+    color: #002563 !important;
+}
+.MUIDataTableToolbar-titleText-41{
+    font-family: Titillium Web!important ; 
+    font-style: normal !important;
+    font-weight: bold !important;
+    font-size: 36px !important;
+    line-height: 18px !important;
+    
+    /* identical to box height, or 112% */
+    letter-spacing: 0.5px !important;
+    
+    /* 01. Primary/900 B */
+    color: #002563 !important;
+    
+}
+
+.MuiTableCell-head{
+    font-family: Titillium Web!important ; 
+font-style: normal !important;
+font-weight: bold !important;
+font-size: 36px !important;
+line-height: 18px !important;
+letter-spacing: 0.5px !important;
+color: #002563 !important;
+
+}
+
+.MuiTableCell-head div{
+font-family: Titillium Web !important ; 
+font-style: normal !important;
+font-weight: bold !important;
+font-size: 18px !important;
+line-height: 18px !important;
+letter-spacing: 0.5px !important;
+color: #002563 !important;
+
+}
+
+.MuiTableCell-head span .MuiButton-label{
+    font-family: Titillium Web !important ; 
+font-style: normal !important;
+font-weight: bold !important;
+font-size: 18px !important;
+line-height: 18px !important;
+
+/* identical to box height, or 112% */
+letter-spacing: 0.5px !important;
+
+/* 01. Primary/900 B */
+color: #002563 !important;
+}
+
+.paper{
+  height: '764px'; 
+  width: '100%';
+  border-radius: '12px';
+  padding: '20px';
+  padding-top: '40px';
+  padding-bottom: '49px';
+  margin-top: '30px';
+}
+
+.gridItem{
+    margin-top: 5px !important;
+}
+.gridContainer{
+    margin-left: 20px;
+}
+.paperSinShadow{
+    box-shadow: none !important;
+}
+.paperContainer{
+    box-shadow: 0px 5px 10px rgba(0, 37, 99, 0.05) !important;
+    border-radius: 12px !important;
+    width: 100% !important; 
+    margin-top: 1% !important;  
+    margin-bottom: 2% !important; 
+}
+.compraBody{
+    margin-right: 6%; 
+    margin-left: 6%; 
+    padding:5%;
+}
+
+.rootCardHoras{
+    background-color: #C8FACD !important;
+    transition: box-shadow 300ms cubic-bezier(0.4,0,0.25,1) 0ms;
+    overflow: hidden;
+    border-radius: 16px;
+    position: relative;
+    z-index: 0;
+    text-align: center;
+    padding: 40px 0px;
+    color:  #59b362 !important ;
+    width: 70%;
+  }
+  .rootCardCantidad{
+    background-color: #FFE7D9 !important;
+    transition: box-shadow 300ms cubic-bezier(0.4,0,0.25,1) 0ms;
+    overflow: hidden;
+    border-radius: 16px;
+    position: relative;
+    z-index: 0;
+    text-align: center;
+    padding: 40px 0px;
+    color:  #dd5e14 !important;
+    width: 70%;
+  }
+  .rootCardTotal{ 
+    background-color: #D0F2FF !important;
+    transition: box-shadow 300ms cubic-bezier(0.4,0,0.25,1) 0ms;
+    overflow: hidden;
+    border-radius: 16px;
+    position: relative;
+    z-index: 0;
+    text-align: center;
+    padding: 40px 0px;
+    color:  #063b50 !important;
+    width: 70%;
+  }
+
+  .iconoCantidad{
+      margin: auto auto 24px;
+      display: flex;
+      border-radius: 50%;
+      -webkit-box-align: center;
+      align-items: center;
+      width: 64px;
+      height: 64px;
+      -webkit-box-pack: center;
+      justify-content: center;
+      color:  #dd5e14 !important;
+    background-image: linear-gradient(135deg,rgba(0,123,85,0),0%rgba(123, 29, 0, 0.24) 100%);
+  }
+  .iconoHoras{
+    margin: auto auto 24px;
+    display: flex;
+    border-radius: 50%;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color:  #59b362 !important ;
+    background-image: linear-gradient(135deg,rgba(0,123,85,0),0%rgba(0, 123, 41, 0.24) 100%);
+}
+.iconoTotal{
+    margin: auto auto 24px;
+    display: flex;
+    border-radius: 50%;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    color:  #063b50 !important;
+    background-image: linear-gradient(135deg,rgba(0,123,85,0),0%rgba(0, 12, 123, 0.24) 100%);
+}

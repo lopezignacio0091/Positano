@@ -93,37 +93,47 @@ export const getGustos = () => async dispatch => {
 }
 
 export const postCompra = (data, values) => async dispatch => {
+
+    const validandoGustos = (value) => {
+        for (let x = 0; x < value.length; x++) {
+             let t = _.map(value[x], e => {
+                const datosCheque = { "tasteId": e.id };
+                return datosCheque;
+            }) 
+            return t ;   
+        }    
+    }
+    let x=[];
     const dataEnviar = {
         "userId": data.user.id,
         "typeOrders": _.map(values.cantidad, elem => {
             const datosCheque = { "typeOrderId": elem.id };
             return datosCheque;
         }),
-        "tastes": _.map(values.pedido, elem => {
-            const datosCheque = { "tastesId": elem.id };
-            return datosCheque;
-        }),
-    }
-    try {
-        const data = await PedidoService.create(dataEnviar);
-        dispatch({
-            type: OK_PEDIDO,
-            payload: data
-        });
-    } catch (error) {
-        dispatch({
-            type: ERROR,
-            payload: 'Error buscando gusts\n ' + error
-        });
+        "tastes":validandoGustos(values.pedido)
     }
 
+try {
+   
+    const data = await PedidoService.create(dataEnviar);
+    dispatch({
+        type: OK_PEDIDO,
+        payload: data
+    });
+} catch (error) {
+    dispatch({
+        type: ERROR,
+        payload: 'Error buscando gusts\n ' + error
+    });
 }
+}
+
 
 
 export const cerrarMensaje = (value) => dispatch => {
     dispatch({
         type: CERRAR_MENSAJE,
-        payload: item
+        payload: value
     });
 }
 

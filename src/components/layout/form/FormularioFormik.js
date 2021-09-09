@@ -20,9 +20,9 @@ import Helado from '../../../img/helado.png';
 
 const FormularioFormik = () => {
     const dispatch = useDispatch();
-    const { loading, productos, existe, gustos, loadingUser, pedido, gustosPedido } = useSelector(state => state.FormularioReducer);
-    
+    const {productos, existe, gustos, loadingUser} = useSelector(state => state.FormularioReducer);
     const FormularioData = useSelector(state => state.FormularioReducer);    
+    
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(0);
     const [agregarGusto, setAgregarGusto] = useState(false);
     const [initialPedido, setInitialPedido] = useState(false);
@@ -31,6 +31,8 @@ const FormularioFormik = () => {
 
     const armandoPedido = (values) => {
         dispatch(postCompra({...FormularioData},values));
+        setPedidoSeleccionado(0);
+        setAgregarGusto(false)
     }
 
 
@@ -52,11 +54,11 @@ const FormularioFormik = () => {
 
             }}
             validationSchema={SignupSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting,resetForm }) => {
                 setTimeout(() => {
                     armandoPedido(values);
                     setSubmitting(false);
-                    alert(JSON.stringify(values));
+                    resetForm();
                 }, 500);
             }}
         >

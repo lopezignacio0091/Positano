@@ -1,26 +1,28 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router,HashRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, HashRouter, Switch, Route } from 'react-router-dom';
 import store from './store';
-import AppBar from './components/layout/appBar/AppBar';
-import Stock from './components/pages/Stock';
-import Ventas from './components/pages/Ventas';
-import About from './components/pages/About'
-import Home from './components/pages/Home';
-import NotFound from './components/pages/NotFound';
-import Grid from '@material-ui/core/Grid';
+import AppContainerPage from './components/pages/AppContainerPage';
+import {makeStyles} from '@material-ui/core';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  }
+}));
+
+
 
 const App = () => {
+  const classes = useStyles();
   return (
     <Provider store={store}>
-      <HashRouter>
-      <AppBar />
-                <Switch>
-                  <Route exact={true} path='/' component={Home} />
-                  <Route path='/stock' component={Stock} />
-                  <Route path='/ventas' component={Ventas} />
-                </Switch>
-            </HashRouter>
+      <div className={classes.root}>
+        <Router>
+          <AppContainerPage />
+        </Router>
+      </div>
     </Provider>
   );
 }

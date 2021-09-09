@@ -6,7 +6,6 @@ export default makeStyles({
         display: 'flex',
       },
       container: {
-        marginTop: '100px',
         alignContent:'center',
         alignItems:'center',
         padding:'5%'
