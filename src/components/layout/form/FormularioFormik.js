@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsuario,postCompra, setLoadingUser } from '../../../actions/FormularioAction';
+import { getUsuario,postCompra, postCompraUser,setLoadingUser } from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
 import { Button, LinearProgress, List, Grid, Card, Avatar, Chip, IconButton } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -11,7 +11,6 @@ import LeakRemoveIcon from '@material-ui/icons/LeakRemove';
 import Alert from '../alert/Alert';
 import styles from './style';
 import * as Yup from "yup";
-import PedidoDTO from '../../../classDTO/PedidoDTO';
 import _ from 'lodash';
 import MyTextField from './textField/MyTextField';
 import CustomProduct from './CustomProduct';
@@ -30,7 +29,7 @@ const FormularioFormik = () => {
 
 
     const armandoPedido = (values) => {
-        dispatch(postCompra({...FormularioData},values));
+       (!existe) ? dispatch(postCompra({...FormularioData},values)):dispatch(postCompraUser(values));
         setPedidoSeleccionado(0);
         setAgregarGusto(false)
     }
@@ -85,6 +84,7 @@ const FormularioFormik = () => {
                                     color="secondary"
                                     variant="contained"
                                     className={classes.inputs}
+                                    disabled={!values.telefono}
                                     onClick={() => { dispatch(setLoadingUser()); dispatch(getUsuario(values, setFieldValue)) }}
                                 >
                                     Validar Usuario

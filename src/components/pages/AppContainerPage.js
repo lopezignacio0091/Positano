@@ -56,7 +56,7 @@ const AppContainerPage = () => {
                     <Grid item xs={12} md={12}>
                         <List>
                             <label className='label'>COMPRA/VENTA</label>
-                            <ListItem button component={Link} to='/compras'  >
+                            <ListItem button component={Link} to={'/compras'}  >
                                 <ListItemIcon ><AttachMoneyIcon className='icono' /></ListItemIcon>
                                 <ListItemText className='titleLink' primary="Compras" />
                             </ListItem>
@@ -65,7 +65,7 @@ const AppContainerPage = () => {
                     <Divider className='divider' />
                     <Grid item xs={12} md={12}>
                         <List>
-                            <ListItem button component={Link} to={`${url}/Transferencia`}   >
+                            <ListItem button component={Link} to={'/pedidos'}   >
                                 <ListItemIcon ><TelegramIcon className='icono' /></ListItemIcon>
                                 <ListItemText className='titleLink'>Pedidos</ListItemText>
                             </ListItem>

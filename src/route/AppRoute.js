@@ -4,6 +4,7 @@ import { BrowserRouter as Router, HashRouter, Switch, Route, useRouteMatch, Redi
 
 import Stock from '../components/pages/Stock';
 import Compras from '../components/pages/ComprasPage';
+import Pedidos from '../components/pages/PedidosPage';
 import About from '../components/pages/About'
 import Home from '../components/pages/Home';
 import NotFound from '../components/pages/NotFound';
@@ -17,6 +18,7 @@ const AppRoute = () => {
           <Route exact={true} path='/' component={Home} />
           <Route path='/stock' component={Stock} />
           <Route path='/compras' component={Compras} />
+          <Route path='/pedidos' component={Pedidos} />
         </Switch>
     </>
   )

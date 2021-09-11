@@ -1,0 +1,8 @@
+.MuiAlert-standardWarning {
+    width: 100% !important;
+    background: rgb(206, 89, 54) !important;
+    color: white !important;;
+}
+.MuiGrid-grid-lg-12 .MuiButton-containedSecondary {
+    background: #2E3650 !important;
+}

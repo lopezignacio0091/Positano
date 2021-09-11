@@ -2,8 +2,8 @@ import http from "../helpers/axiosInstance";
 
 const seccion = 'Order';
 
-const getAll = () => {
-  return http.get(`/${seccion}`);
+const getAllDate = () => {
+  return http.get(`/${seccion}/getDate`);
 };
 
 
@@ -21,10 +21,10 @@ const remove = (data) => {
 };
 
 const PedidoService = {
-  getAll,
   create,
   update,
   remove,
+  getAllDate
 };
 
 export default PedidoService;

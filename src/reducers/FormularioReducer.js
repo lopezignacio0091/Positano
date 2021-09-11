@@ -11,9 +11,9 @@ const initialState = {
     listGustoLabel: [],
     listGustoDate: [],
     mostrarMensaje:false,
-    textoMensaje:''
+    textoMensaje:'',
 };
-import _ from 'lodash';
+
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -85,7 +85,9 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 mostrarMensaje:true,
-                textoMensaje:'El pedido fue creado'
+                textoMensaje:'El pedido fue creado',
+                existe:false,
+                user: {},
             };
         default:
             return state;

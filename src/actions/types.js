@@ -1,5 +1,7 @@
 export const LOADING = 'LOADING';
 export const ERROR = 'ERROR';
+
+//Formulario Action
 export const GET_USER = 'GET_USER';
 export const GET_PRODUCTO = 'GET_PRODUCTO';
 export const SET_NOMBRE='SET_NOMBRE';
@@ -13,3 +15,9 @@ export const devUrl = 'https://localhost:44347';
 export const CERRAR_MENSAJE = 'CERRAR_MENSAJE';
 export const SET_PEDIDO = 'SET_PEDIDO';
 export const OK_PEDIDO = 'OK_PEDIDO';
+
+//Pedido action 
+
+export const GET_PEDIDOS = 'GET_PEDIDO';
+export const VIEW_PEDIDO = 'VIEW_PEDIDO';
+export const OPEN_MODAL_VIEW = 'OPEN_MODAL_VIEW';

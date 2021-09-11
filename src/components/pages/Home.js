@@ -6,6 +6,7 @@ import Progress from '../layout/progress/Progress';
 import Formulario from '../layout/form/FormularioFormik';
 import Grid from '@material-ui/core/Grid';
 import Mensaje from '../layout/utils/mensaje/Mensaje';
+import '../../themes/formulario.css'
 const Home = () => {
     const dispatch = useDispatch();
     const { loading,mostrarMensaje,textoMensaje} = useSelector(state => state.FormularioReducer);

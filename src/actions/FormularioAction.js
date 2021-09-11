@@ -7,6 +7,7 @@ import ProductoService from "../service/producto.service";
 import UsuarioService from '../service/usuario.service';
 import GustoService from '../service/gusto.service';
 import PedidoService from '../service/pedido.service';
+import _ from 'lodash';
 
 export const setLoading = () => {
     return {
@@ -96,37 +97,87 @@ export const postCompra = (data, values) => async dispatch => {
 
     const validandoGustos = (value) => {
         for (let x = 0; x < value.length; x++) {
-             let t = _.map(value[x], e => {
+            let t = _.map(value[x], e => {
                 const datosCheque = { "tasteId": e.id };
                 return datosCheque;
-            }) 
-            return t ;   
-        }    
+            })
+            return t;
+        }
     }
-    let x=[];
+    let cantidadPedido = _.filter(values.cantidad, e => e.length);
     const dataEnviar = {
-        "userId": data.user.id,
-        "typeOrders": _.map(values.cantidad, elem => {
+        "typeOrders": _.map(cantidadPedido, elem => {
             const datosCheque = { "typeOrderId": elem.id };
             return datosCheque;
         }),
-        "tastes":validandoGustos(values.pedido)
+        "tastes": validandoGustos(values.pedido),
+        "user": {
+            "userId": data.user.id,
+            "lastName": data.user.nombre,
+            "direction": data.user.direccion,
+            "phone": data.user.telefono
+          },
+        'isUser':true,
     }
 
-try {
-   
-    const data = await PedidoService.create(dataEnviar);
-    dispatch({
-        type: OK_PEDIDO,
-        payload: data
-    });
-} catch (error) {
-    dispatch({
-        type: ERROR,
-        payload: 'Error buscando gusts\n ' + error
-    });
+    try {
+
+        const data = await PedidoService.create(dataEnviar);
+        dispatch({
+            type: OK_PEDIDO,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+            payload: 'Error buscando gusts\n ' + error
+        });
+    }
 }
+
+
+export const postCompraUser = (values) => async dispatch => {
+
+    const validandoGustos = (value) => {
+        for (let x = 0; x < value.length; x++) {
+            let t = _.map(value[x], e => {
+                const datosCheque = { "tasteId": e.id };
+                return datosCheque;
+            })
+            return t;
+        }
+    }
+    let cantidadPedido = _.filter(values.cantidad, e => e.length);
+    const dataEnviar = {
+        "typeOrders": _.map(cantidadPedido, elem => {
+            const datosCheque = { "typeOrderId": elem.id };
+            return datosCheque;
+        }),
+        "tastes": validandoGustos(values.pedido),
+        'isUser': false,
+        "user": {
+            'userId': 0,
+            'lastname': values.nombre,
+            'direction': values.domicilio,
+            'phone': values.telefono
+        }
+    }
+
+    try {
+
+        const data = await PedidoService.create(dataEnviar);
+        dispatch({
+            type: OK_PEDIDO,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ERROR,
+            payload: 'Error buscando gusts\n ' + error
+        });
+    }
 }
+
 
 
 
