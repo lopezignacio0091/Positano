@@ -15,7 +15,6 @@ export default function SimpleBackdrop() {
 
   return (
     <div>
-    
       <Backdrop className={classes.backdrop} open={true}>
         <CircularProgress color="inherit" />
       </Backdrop>

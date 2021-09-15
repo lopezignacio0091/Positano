@@ -104,9 +104,9 @@ export const postCompra = (data, values) => async dispatch => {
             return t;
         }
     }
-    let cantidadPedido = _.filter(values.cantidad, e => e.length);
+    //let cantidadPedido = _.filter(values.cantidad, e => e.length);
     const dataEnviar = {
-        "typeOrders": _.map(cantidadPedido, elem => {
+        "typeOrders": _.map(values.cantidad, elem => {
             const datosCheque = { "typeOrderId": elem.id };
             return datosCheque;
         }),
@@ -116,8 +116,8 @@ export const postCompra = (data, values) => async dispatch => {
             "lastName": data.user.nombre,
             "direction": data.user.direccion,
             "phone": data.user.telefono
-          },
-        'isUser':true,
+        },
+        'isUser': true,
     }
 
     try {
@@ -147,9 +147,9 @@ export const postCompraUser = (values) => async dispatch => {
             return t;
         }
     }
-    let cantidadPedido = _.filter(values.cantidad, e => e.length);
+    //let cantidadPedido = _.filter(values.cantidad, e => e.length);
     const dataEnviar = {
-        "typeOrders": _.map(cantidadPedido, elem => {
+        "typeOrders": _.map(values.cantidad, elem => {
             const datosCheque = { "typeOrderId": elem.id };
             return datosCheque;
         }),

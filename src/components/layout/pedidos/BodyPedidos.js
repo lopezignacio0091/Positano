@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import Card from './CardPedido';
 import _ from 'lodash';
-import AlertUtils from '../alert/Alert';
+import AlertUtils from '../utils/alert/AlertUtils';
 import PaginationUtils from '../utils/pagination/Pagination';
 
 
@@ -28,7 +28,7 @@ const BodyPedidos = () => {
                             _.map(pedidos, i =>
                                 <Grid item xs={3} md={3} key={`${i.id}`}>
                                     <Card
-                                        id={i.ID}
+                                        id={i.id}
                                         fecha={`${i.fecha}`}
                                         direccion={`${i.usuario.direccion}`}
                                         estado={i.estado}
@@ -36,7 +36,7 @@ const BodyPedidos = () => {
                                     />
                                 </Grid>
                             )
-                            : <AlertUtils LABEL={"No hay pedido por el momento "} TYPE={"error"} />
+                            : <AlertUtils LABEL={"No hay pedidos por el momento "} CLASS="pedidos" TYPE={"error"}  />
                         }
                     </Grid>
                 </Grid>

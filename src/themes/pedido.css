@@ -7,6 +7,16 @@
     color:white !important;
     background-color: rgb(221, 87, 87) !important;
 }
+
+.btnEntregado{
+    color:white !important;
+    background-color: rgb(58, 218, 170) !important;
+}
+
+.btnPendiente{
+    color:white !important;
+    background-color: rgb(221, 87, 87) !important;
+}
 .margenTopcontainer{
     margin-top: 2%;
 }

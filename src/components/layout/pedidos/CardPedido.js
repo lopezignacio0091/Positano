@@ -1,13 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { viewPedido, delivered } from '../../../actions/PedidoAction';
 import { Grid, IconButton, Button, Chip, Card, CardActions, CardContent, Typography } from '@material-ui/core';
 import moment from 'moment';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import { useDispatch } from 'react-redux';
 
 
 
 const CardPedido = ({ direccion, id, fecha, estado, nombre }) => {
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -21,7 +23,7 @@ const CardPedido = ({ direccion, id, fecha, estado, nombre }) => {
                         </Grid>
                         <Grid container item xs={6} justify="flex-end" className="gridItem">
                             <IconButton aria-label="view" size="small">
-                                <VisibilityIcon fontSize="inherit" />
+                                <VisibilityIcon fontSize="inherit" onClick={() => { dispatch(viewPedido(id)) }} />
                             </IconButton>
                         </Grid>
                         <Grid item xs={12} className="gridItemContaienr" alignContent="center" container direction="row" justify="center">
@@ -40,7 +42,7 @@ const CardPedido = ({ direccion, id, fecha, estado, nombre }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12} className="gridItemContaienr" alignContent="center" container direction="row" justify="center">
-                            <Button  variant="contained" startIcon={<MotorcycleIcon />}>Entregado</Button>
+                            <Button onClick={() => {dispatch(delivered({ 'OrderId': id }))}} variant="contained" startIcon={<MotorcycleIcon />}>Entregado</Button>
                         </Grid>
                     </Grid>
                 </CardContent>

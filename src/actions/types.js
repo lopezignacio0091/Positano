@@ -21,3 +21,11 @@ export const OK_PEDIDO = 'OK_PEDIDO';
 export const GET_PEDIDOS = 'GET_PEDIDO';
 export const VIEW_PEDIDO = 'VIEW_PEDIDO';
 export const OPEN_MODAL_VIEW = 'OPEN_MODAL_VIEW';
+export const FILTER_PEDIDOS_STATUS = 'FILTER_PEDIDOS_STATUS';
+export const DELIVERED_ORDER = 'DELIVERED_ORDER';
+
+
+
+
+//Gustos Action
+export const GET_GUSTOS_STOCK = "GET_GUSTOS_STOCK";

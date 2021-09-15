@@ -20,11 +20,16 @@ const remove = (data) => {
   return http.post(`/${seccion}/deleteById`, data);
 };
 
+const delivered  = (data) => {
+  return http.post(`/${seccion}/UpdateStatus`, data);
+}
+
 const PedidoService = {
   create,
   update,
   remove,
-  getAllDate
+  getAllDate,
+  delivered
 };
 
 export default PedidoService;

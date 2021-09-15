@@ -66,7 +66,7 @@ const AppContainerPage = () => {
                     <Grid item xs={12} md={12}>
                         <List>
                             <ListItem button component={Link} to={'/pedidos'}   >
-                                <ListItemIcon ><TelegramIcon className='icono' /></ListItemIcon>
+                                <ListItemIcon><TelegramIcon className='icono'/></ListItemIcon>
                                 <ListItemText className='titleLink'>Pedidos</ListItemText>
                             </ListItem>
                         </List>
@@ -74,7 +74,7 @@ const AppContainerPage = () => {
                     <Divider className='divider' />
                     <Grid item xs={12} md={12}>
                         <List>
-                            <ListItem button component={Link} to={`${url}/IngresoEgreso`} >
+                            <ListItem button component={Link} to={'/gustos'} >
                                 <ListItemIcon ><SyncAltIcon className='icono' /></ListItemIcon>
                                 <ListItemText className='titleLink' >Stock</ListItemText>
                             </ListItem>
