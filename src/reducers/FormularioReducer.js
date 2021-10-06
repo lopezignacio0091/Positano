@@ -1,4 +1,5 @@
-import { LOADING, ERROR, OK_PEDIDO, CERRAR_MENSAJE, NEW_PEDIDO, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS, LOADING_USER } from "../actions/types";
+import { LOADING, ERROR, OK_PEDIDO, CERRAR_MENSAJE, FILTER_GUSTO, GET_USER, SET_NOMBRE, SET_TELEFONO, SET_DOMICILIO, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS, LOADING_USER } from "../actions/types";
+import _ from 'lodash';
 const initialState = {
     loading: false,
     loadingUser: false,
@@ -8,6 +9,7 @@ const initialState = {
     TipoPedido: [],
     existe: false,
     gustos: [],
+    copyGustos:[],
     listGustoLabel: [],
     listGustoDate: [],
     mostrarMensaje:false,
@@ -44,6 +46,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 gustos: action.payload,
+                copyGustos:action.payload,
                 loading: false
             }
         case SET_NOMBRE:
@@ -89,6 +92,11 @@ export default (state = initialState, action) => {
                 existe:false,
                 user: {},
             };
+            case FILTER_GUSTO:
+                return {
+                    ...state,
+                    gustos: (action.payload === 0) ? state.copyGustos : _.filter(state.copyGustos,x =>{return x.id === action.payload}),
+                };
         default:
             return state;
     }

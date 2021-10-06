@@ -1,12 +1,12 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState,Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsuario,postCompra, postCompraUser,setLoadingUser } from '../../../actions/FormularioAction';
+import { getUsuario, postCompra, postCompraUser, setLoadingUser,filterGustos } from '../../../actions/FormularioAction';
 import { Formik, Form, Field, useFormik } from 'formik';
 import { Button, LinearProgress, List, Grid, Card, Avatar, Chip, IconButton } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Logo from '../../../img/positanoLogo.jpg';
-import Progress from '../../layout/progress/Progress'
+import AutoCompleteUtils from '../utils/autoComplete/AutoComplete';
 import LeakRemoveIcon from '@material-ui/icons/LeakRemove';
 import Alert from '../alert/Alert';
 import styles from './style';
@@ -19,9 +19,9 @@ import Helado from '../../../img/helado.png';
 
 const FormularioFormik = () => {
     const dispatch = useDispatch();
-    const {productos, existe, gustos, loadingUser} = useSelector(state => state.FormularioReducer);
-    const FormularioData = useSelector(state => state.FormularioReducer);    
-    
+    const { productos, existe, gustos, loadingUser } = useSelector(state => state.FormularioReducer);
+    const FormularioData = useSelector(state => state.FormularioReducer);
+
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(0);
     const [agregarGusto, setAgregarGusto] = useState(false);
     const [initialPedido, setInitialPedido] = useState(false);
@@ -29,7 +29,7 @@ const FormularioFormik = () => {
 
 
     const armandoPedido = (values) => {
-       (!existe) ? dispatch(postCompra({...FormularioData},values)):dispatch(postCompraUser(values));
+        (!existe) ? dispatch(postCompra({ ...FormularioData }, values)) : dispatch(postCompraUser(values));
         setPedidoSeleccionado(0);
         setAgregarGusto(false)
     }
@@ -49,11 +49,9 @@ const FormularioFormik = () => {
                 domicilio: '',
                 pedido: [],
                 cantidad: []
-
-
             }}
             validationSchema={SignupSchema}
-            onSubmit={(values, { setSubmitting,resetForm }) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
                     armandoPedido(values);
                     setSubmitting(false);
@@ -88,7 +86,7 @@ const FormularioFormik = () => {
                                     onClick={() => { dispatch(setLoadingUser()); dispatch(getUsuario(values, setFieldValue)) }}
                                 >
                                     Validar Usuario
-                                    </Button>
+                                </Button>
                                 <Grid item xs={12} md={12} lg={12} className={classes.grid}>
                                     {
                                         (existe) ? <Alert /> : <Grid />
@@ -114,10 +112,11 @@ const FormularioFormik = () => {
                                 <Grid container direction="row" className={classes.inputs}>
                                     {_.isEmpty(!productos) &&
                                         _.map(productos, i =>
-                                            <CustomProduct key={i.id} name={i.nombre} accion={() => { 
-                                                _.set(i,'idInterno',Math.floor(Math.random() * 900));
-                                                setFieldValue('cantidad', [...values.cantidad, i]); 
-                                                setFieldValue('pedido', [...values.pedido, []]) }} />
+                                            <CustomProduct key={i.id} name={i.nombre} accion={() => {
+                                                _.set(i, 'idInterno', Math.floor(Math.random() * 900));
+                                                setFieldValue('cantidad', [...values.cantidad, i]);
+                                                setFieldValue('pedido', [...values.pedido, []])
+                                            }} />
                                         )}
                                 </Grid>
                             </Grid>
@@ -134,7 +133,7 @@ const FormularioFormik = () => {
                                                         icon={LeakRemoveIcon}
                                                         label={data.nombre}
                                                         onDelete={() => {
-                                                            const cantidad = _.filter(values.cantidad, e => {return (e.idInterno != data.idInterno)})
+                                                            const cantidad = _.filter(values.cantidad, e => { return (e.idInterno != data.idInterno) })
                                                             setFieldValue(`cantidad`, cantidad);
                                                         }}
                                                         variant="outlined"
@@ -164,21 +163,28 @@ const FormularioFormik = () => {
                                 </Grid>
                             </Grid>
                             {(agregarGusto) &&
-                                <Grid container item xs={12} md={12} lg={12} className={classes.gridGustos}>
-                                    {_.isEmpty(!gustos) &&
-                                        _.map(gustos, i =>
-                                            <Grid item xs={4}>
-                                                <List>
-                                                    <CustomGusto name={i.nombre} seleccionado={i.seleccionado} accion={() => {
-                                                        let Pedido = values.pedido[pedidoSeleccionado];
-                                                        _.set(i, 'idInterno', Math.floor(Math.random() * 900));
-                                                        Pedido.push(i)
-                                                        setFieldValue(`pedido.${pedidoSeleccionado}`, Pedido)
-                                                    }} />
-                                                </List>
-                                            </Grid>
-                                        )}
-                                </Grid>}
+                                <Fragment>
+                                    <Grid item xs={12}>
+                                        <AutoCompleteUtils OPTIONS_SELECT={gustos}
+                                            ONCHANGE_SELECT={(_, value) => { (value != null) ? dispatch(filterGustos(value["id"])) : dispatch(filterGustos(0)) }}
+                                            LABEL_SELECT={"Select Gustos"} 
+                                            LABEL="nombre" />
+                                    </Grid>
+                                    <Grid container item xs={12} md={12} lg={12} spacing={2} className={classes.gridGustos}>
+                                        {_.isEmpty(!gustos) &&
+                                            _.map(gustos, i =>
+                                                <Grid item xs={4}>
+                                                    <List>
+                                                        <CustomGusto name={i.nombre} seleccionado={i.seleccionado} accion={() => {
+                                                            let Pedido = values.pedido[pedidoSeleccionado];
+                                                            _.set(i, 'idInterno', Math.floor(Math.random() * 900));
+                                                            Pedido.push(i)
+                                                            setFieldValue(`pedido.${pedidoSeleccionado}`, Pedido)
+                                                        }} />
+                                                    </List>
+                                                </Grid>
+                                            )}
+                                    </Grid></Fragment>}
                             <Grid item xs={12} md={12} lg={12}>
                                 {isSubmitting && <LinearProgress />}
                             </Grid>
@@ -190,7 +196,7 @@ const FormularioFormik = () => {
                                     className={classes.Botton}
                                 >
                                     Enviar
-                                    </Button>
+                                </Button>
                             </Grid>
                             <Grid item xs={12} md={4} lg={4} className={classes.gridBotton}>
                                 <Button
@@ -201,7 +207,7 @@ const FormularioFormik = () => {
                                     className={classes.inputs}
                                 >
                                     Cancelar
-                        </Button>
+                                </Button>
                             </Grid>
                         </Grid>
                     </Card>

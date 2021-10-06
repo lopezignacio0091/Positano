@@ -1,7 +1,7 @@
 import {
     LOADING, ERROR, CERRAR_MENSAJE, SET_TELEFONO, SET_PEDIDO,
     GET_USER, GET_PRODUCTO, NOT_FOUND_USER, GET_GUSTOS,
-    LOADING_USER, OK_PEDIDO
+    LOADING_USER, OK_PEDIDO,FILTER_GUSTO
 } from './types';
 import ProductoService from "../service/producto.service";
 import UsuarioService from '../service/usuario.service';
@@ -195,4 +195,13 @@ export const setPedido = (item) => dispatch => {
         type: SET_PEDIDO,
         payload: datos[item["idInterno"]] = item
     });
+}
+
+
+export const filterGustos =(value)=>dispatch=>{
+    dispatch({
+        type: FILTER_GUSTO,
+        payload: value
+    });
+
 }

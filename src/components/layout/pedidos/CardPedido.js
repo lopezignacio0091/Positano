@@ -42,7 +42,10 @@ const CardPedido = ({ direccion, id, fecha, estado, nombre }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12} className="gridItemContaienr" alignContent="center" container direction="row" justify="center">
-                            <Button onClick={() => {dispatch(delivered({ 'OrderId': id }))}} variant="contained" startIcon={<MotorcycleIcon />}>Entregado</Button>
+                           {(estado === "Pending") &&
+                           <Button onClick={() => {dispatch(delivered({ 'OrderId': id }))}} 
+                           variant="contained" 
+                           startIcon={<MotorcycleIcon />}>Entregado</Button>}
                         </Grid>
                     </Grid>
                 </CardContent>

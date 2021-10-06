@@ -1,9 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Grid, IconButton, Button, Chip, Card, CardActions, CardContent, Typography } from '@material-ui/core';
-import moment from 'moment';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import MotorcycleIcon from '@material-ui/icons/Motorcycle';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import PersonIcon from '@material-ui/icons/Person';
 
 
 
@@ -11,11 +8,12 @@ const ViewTipoPedido = ({ nombre }) => {
 
     return (
         <>
-            <Grid item xs={12} className="gridItem">
-                <Typography variant="body" gutterBottom >
-                    {nombre}
-                </Typography>
-            </Grid>
+            <ListItem button>
+                <ListItemIcon>
+                    <PersonIcon />
+                </ListItemIcon>
+                <ListItemText  className='labelName' primary={nombre} />
+            </ListItem>
         </>
     )
 }

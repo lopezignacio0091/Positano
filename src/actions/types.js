@@ -15,6 +15,7 @@ export const devUrl = 'https://localhost:44347';
 export const CERRAR_MENSAJE = 'CERRAR_MENSAJE';
 export const SET_PEDIDO = 'SET_PEDIDO';
 export const OK_PEDIDO = 'OK_PEDIDO';
+export const FILTER_GUSTO = "FILTER_GUSTO";
 
 //Pedido action 
 

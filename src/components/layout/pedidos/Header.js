@@ -2,17 +2,17 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Card from './Card';
-
+import _ from "lodash"
 
 
 const Header = () => {
 
-    const { total, cantidadCompras } = useSelector(state => state.ComprasReducer);
+    const { totalPedidos, cantidadPedidos} = useSelector(state => state.PedidoReducer);
 
     const dataCard = [
-        { 'status': 'Total', 'cantidad': total, 'style': "Total" },
-        { 'status': 'Cantidad Ventas', 'cantidad': cantidadCompras, 'style': "Cantidad" },
-        { 'status': 'Horas', 'cantidad': cantidadCompras, 'style': "Horas" }
+        { 'status': 'Total', 'cantidad': totalPedidos, 'style': "Total" },
+        { 'status': 'Cantidad Ventas', 'cantidad': cantidadPedidos, 'style': "Cantidad" },
+        { 'status': 'Horas', 'cantidad': cantidadPedidos, 'style': "Horas" }
     ]
 
     return (

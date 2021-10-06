@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCompras, setLoading } from '../../actions/ComprasActions';
 import Progress from '../layout/progress/Progress';
-import Header from '../layout/ventas/Header'
 import Table from '../layout/ventas/Table';
 import { Grid, Paper } from '@material-ui/core';
 import '../../themes/compras.css';
@@ -17,11 +16,6 @@ const Compras = () => {
 
     return (
         <Grid container direction="row" justify="center" alignItems="center" style={{'marginLeft': '200px' }}>
-            <Grid  item xs={12} sm={12} md={12} lg={12} className='compraBody' style={{'marginTop': '-100px' }}>
-                <Paper variant="outlined" className='paperContainer'>
-                    <Header />
-                </Paper>
-            </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12} className='compraBody' style={{'marginTop': '-100px' }}>
                 <Paper variant="outlined" className='paperContainer'>
                     <div style={{ 'padding': '2%' }}>
