@@ -8,9 +8,12 @@ import '../../themes/compras.css';
 const Compras = () => {
     const dispatch = useDispatch();
     const { loading } = useSelector(state => state.ComprasReducer);
+
+
     useEffect(() => {
         dispatch(getCompras());
     }, [])
+    
 
     if (loading) return <Progress />
 

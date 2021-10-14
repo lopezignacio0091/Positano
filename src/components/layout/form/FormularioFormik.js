@@ -62,7 +62,7 @@ const FormularioFormik = () => {
             {({ submitForm, isSubmitting, values, setFieldValue }) => (
                 <Form>
                     <Card className={classes.container}>
-                        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={2}>
+                        <Grid container direction="row"  spacing={2}>
                             <Grid item xs={12} md={12} lg={12} className={classes.header}>
                                 <img
                                     alt=""

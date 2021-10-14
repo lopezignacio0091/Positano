@@ -14,6 +14,9 @@ const update = (data) => {
   return http.post(`/${seccion}/edit`,data);
 };
 
+const getByDate = (date) => {
+  return http.get(`/${seccion}/getByDate?Date=${date}`);
+};
 
 const remove = (data) => {
   return http.post(`/${seccion}/deleteById`, data);
@@ -24,6 +27,7 @@ const CompraService = {
   create,
   update,
   remove,
+  getByDate
 };
 
 export default CompraService;

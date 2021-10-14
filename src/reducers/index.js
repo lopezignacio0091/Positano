@@ -4,6 +4,7 @@ import ComprasReducer from './ComprasReducer';
 import ChartReducer from './ChartReducer';
 import PedidoReducer from './PedidoReducer';
 import GustoReducer from './GustoReducer';
+import CostoReducer from './CostoReducer';
 
 export default combineReducers({
     FormularioReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     ChartReducer,
     PedidoReducer,
     GustoReducer,
+    CostoReducer,
 });

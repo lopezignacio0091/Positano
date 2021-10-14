@@ -1,0 +1,100 @@
+.rootCajaCard{
+    background: #FFFFFF; 
+    box-shadow: 0px 5px 10px rgba(0, 37, 99, 0.05);
+    border-radius: 12px;
+    padding: 22px 4px 12px;
+    width: 216px;
+    
+}
+
+.labelInicial{
+font-family: Titillium Web;
+font-style: normal;
+font-weight: bold;
+font-size: 13.5px;
+line-height: 20px;
+/* identical to box height, or 143% */
+letter-spacing: 0.25px;
+
+/* 01. Primary/900 B */
+
+color: #002563;
+}
+
+.boxLabelIngreso{
+    font-family: Titillium Web !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+    letter-spacing: 0.4px !important;
+    padding: 6px 12px !important;
+    position: relative !important;
+    width: 85% !important;
+    left: 10px !important;
+    top: -1px !important;
+    background: #353f50 !important;
+    border-radius: 8px !important;
+    letter-spacing: 0.4px !important;
+    color: white !important;
+    text-align: center;
+}
+
+
+.labelCaja{
+font-family: Titillium Web;
+font-style: normal;
+font-weight: normal;
+font-size: 13.5px;
+line-height: 20px;
+/* identical to box height, or 143% */
+
+letter-spacing: 0.25px;
+
+/* 01. Primary/900 B */
+
+color: #002563;
+}
+.labelTotal{
+    font-family: Titillium Web  !important;
+    font-style: normal !important;
+    font-weight: bold !important;
+    font-size: 34px !important;
+    line-height: 36px !important;
+    text-align: center !important;
+    color: #3EBC94 !important;
+}
+
+.labelTotal .MuiInput-input {
+    font-family: Titillium Web  !important;
+    font-style: normal !important;
+    font-weight: bold !important;
+    font-size: 34px !important;
+    line-height: 36px !important;
+    text-align: center !important;
+    color: #3EBC94 !important;
+}
+.gridItemCaja{
+    margin-top:1%;
+}
+.labelTotalCaja{
+    font-family: Titillium Web;
+font-style: normal;
+font-weight: 600;
+font-size: 10px;
+line-height: 16px;
+
+/* identical to box height, or 160% */
+
+text-align: center !important;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+
+/* Success */
+
+color: #3EBC94;
+}
+
+.gridItemCaja.MuiGrid-grid-md-12 {
+    text-align: center !important
+}

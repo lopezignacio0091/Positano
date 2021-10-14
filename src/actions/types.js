@@ -30,3 +30,9 @@ export const DELIVERED_ORDER = 'DELIVERED_ORDER';
 
 //Gustos Action
 export const GET_GUSTOS_STOCK = "GET_GUSTOS_STOCK";
+
+
+
+// Costos action
+export const GET_COMPRAS_DATE = "GET_COMPRAS_DATE";
+export const LOADING_DATE_COMPRAS = "LOADING_DATE_COMPRAS";

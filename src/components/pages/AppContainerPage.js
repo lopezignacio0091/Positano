@@ -80,6 +80,15 @@ const AppContainerPage = () => {
                             </ListItem>
                         </List>
                     </Grid>
+                    <Divider className='divider' />
+                    <Grid item xs={12} md={12}>
+                        <List>
+                            <ListItem button component={Link} to={'/costos'} >
+                                <ListItemIcon ><SyncAltIcon className='icono' /></ListItemIcon>
+                                <ListItemText className='titleLink' >Costo</ListItemText>
+                            </ListItem>
+                        </List>
+                    </Grid>
                 </Grid>
             </Drawer>
             <main className='content'>
